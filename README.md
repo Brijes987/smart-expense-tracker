@@ -210,7 +210,7 @@ graph TB
 ### **One-Command Deployment**
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/smart-expense-tracker.git
+git clone https://github.com/Brijes987/smart-expense-tracker.git
 cd smart-expense-tracker
 
 # Deploy everything with one command

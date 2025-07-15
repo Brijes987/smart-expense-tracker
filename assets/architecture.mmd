@@ -1,0 +1,89 @@
+graph TB
+    subgraph "Client Layer"
+        WEB[Web Browser]
+        MOBILE[Mobile App]
+        API_CLIENT[API Client]
+    end
+
+    subgraph "API Gateway Layer"
+        GATEWAY[API Gateway<br/>Spring Cloud Gateway<br/>Port: 8080]
+    end
+
+    subgraph "Microservices Layer"
+        USER[User Service<br/>Spring Boot<br/>Port: 8081]
+        EXPENSE[Expense Service<br/>Spring Boot<br/>Port: 8082]
+        BUDGET[Budget Service<br/>Spring Boot<br/>Port: 8083]
+        CURRENCY[Currency Service<br/>Node.js/Express<br/>Port: 3000]
+    end
+
+    subgraph "Data Layer"
+        USER_DB[(User Database<br/>MySQL)]
+        EXPENSE_DB[(Expense Database<br/>MySQL)]
+        BUDGET_DB[(Budget Database<br/>MySQL)]
+    end
+
+    subgraph "External Services"
+        EXCHANGE_API[Exchange Rate API<br/>Real-time Rates]
+    end
+
+    subgraph "Cross-Cutting Concerns"
+        JWT[JWT Authentication]
+        SWAGGER[Swagger Documentation]
+        DOCKER[Docker Containers]
+        SCHEDULER[Scheduled Jobs]
+    end
+
+    %% Client connections
+    WEB --> GATEWAY
+    MOBILE --> GATEWAY
+    API_CLIENT --> GATEWAY
+
+    %% Gateway routing
+    GATEWAY --> USER
+    GATEWAY --> EXPENSE
+    GATEWAY --> BUDGET
+    GATEWAY --> CURRENCY
+
+    %% Service to database connections
+    USER --> USER_DB
+    EXPENSE --> EXPENSE_DB
+    BUDGET --> BUDGET_DB
+
+    %% Inter-service communication
+    BUDGET -.-> EXPENSE
+    EXPENSE -.-> CURRENCY
+    CURRENCY --> EXCHANGE_API
+
+    %% Cross-cutting concerns
+    JWT -.-> GATEWAY
+    JWT -.-> USER
+    JWT -.-> EXPENSE
+    JWT -.-> BUDGET
+    
+    SWAGGER -.-> USER
+    SWAGGER -.-> EXPENSE
+    SWAGGER -.-> BUDGET
+    SWAGGER -.-> CURRENCY
+
+    SCHEDULER -.-> BUDGET
+    
+    DOCKER -.-> USER
+    DOCKER -.-> EXPENSE
+    DOCKER -.-> BUDGET
+    DOCKER -.-> CURRENCY
+    DOCKER -.-> USER_DB
+    DOCKER -.-> EXPENSE_DB
+    DOCKER -.-> BUDGET_DB
+
+    classDef serviceBox fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef databaseBox fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef gatewayBox fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef clientBox fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef externalBox fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+
+    class USER,EXPENSE,BUDGET serviceBox
+    class CURRENCY serviceBox
+    class USER_DB,EXPENSE_DB,BUDGET_DB databaseBox
+    class GATEWAY gatewayBox
+    class WEB,MOBILE,API_CLIENT clientBox
+    class EXCHANGE_API externalBox

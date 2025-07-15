@@ -38,6 +38,7 @@ The **Smart Expense Tracker** is a full-featured, enterprise-grade expense manag
 
 <div align="center">
   <img src="assets/architecture.png" alt="Smart Expense Tracker Architecture" width="100%" />
+
 </div>
 
 > **Note**: If the image doesn't display, you can view the interactive diagram by copying the Mermaid code from [`assets/architecture.mmd`](assets/architecture.mmd) to [Mermaid Live Editor](https://mermaid.live/).
